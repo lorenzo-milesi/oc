@@ -16,7 +16,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\NomPrenomRule;
+use App\Rules\AlphaDashSpacesNoNumberRule;
 
 /**
  * Permet de gérer les règles d'autorisations et de validation des
@@ -52,14 +52,14 @@ class PortailRequest extends FormRequest
         return [
             'nom' => [
                 'required',
-                'string',
-                new NomPrenomRule()
+                new AlphaDashSpacesNoNumberRule(),
             ],
             'prenom' => [
-                'required_if:code_postal,null'
+                'required_if:code_postal,null',
+                new AlphaDashSpacesNoNumberRule(),
             ],
             'code_postal' => [
-                'required_if:prenom,null'
+                'required_if:prenom,null',
             ]
         ];
     }
@@ -73,7 +73,9 @@ class PortailRequest extends FormRequest
     {
         return [
             'nom.required'            => 'Le nom est obligatoire',
+            'nom.alpha_dash'          => 'Le nom ne doit pas contenir des caratères spéciaux',
             'prenom.required_if'      => 'Le prénom est obligatoire (si pas de code postal)',
+            'prenom.alpha_dash'       => 'Le prénom ne doit pas contenir des caratères spéciaux',
             'code_postal.required_if' => 'Le code postal est obligatoire (si pas de prénom)',
         ];
     }

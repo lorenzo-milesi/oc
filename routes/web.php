@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PortailController;
 
 Route::get('/', [PortailController::class, 'create'])->name('portail.create');
+Route::get('/portail', [PortailController::class, 'stored'])->name('portail.stored');
 Route::post('/portail', [PortailController::class, 'store'])->name('portail.store');

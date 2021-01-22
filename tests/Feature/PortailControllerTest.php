@@ -1,11 +1,12 @@
 <?php
 
 /**
- * Permet de gérer les tests relatifs au portail (formulaire repoussoir).
+ * Permet de gérer les tests controlleur relatifs au portail
+ * (formulaire repoussoir).
  *
  * PHP Version 7
  *
- * @category Controller
+ * @category Test
  * @package  App
  * @author   Lorenzo Milesi <lmilesi@dataneo.fr>
  * @license  Standard Copyright to DataNeo
@@ -19,11 +20,12 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 /**
- * Permet de gérer les tests relatifs au portail (formulaire repoussoir).
+ * Permet de gérer les tests controlleur relatifs au portail
+ * (formulaire repoussoir).
  *
  * PHP Version 7
  *
- * @category Controller
+ * @category Test
  * @package  App
  * @author   Lorenzo Milesi <lmilesi@dataneo.fr>
  * @license  Standard Copyright to DataNeo
@@ -39,6 +41,18 @@ class PortailControllerTest extends TestCase
     public function testAccesPortail()
     {
         $response = $this->get(route('portail.create'));
+
+        $response->assertStatus(200);
+    }
+
+    /**
+     * Vérifie qu'on puisse bien accéder à la page de confirmation.
+     *
+     * @return void
+     */
+    public function testAccesPortailConfirmation()
+    {
+        $response = $this->get(route('portail.stored'));
 
         $response->assertStatus(200);
     }
@@ -64,98 +78,22 @@ class PortailControllerTest extends TestCase
     }
 
     /**
-     * Le champ << nom >> ne doit pas être vide.
+     * S'assure de la bonne redirection sur formulaire valide.
      *
      * @return void
      */
-    public function testLeNomEstObligatoire()
-    {
-        $response = $this->post(route('portail.store', [ 'nom' => null ]));
-
-        $response->assertSessionHasErrors(['nom']);
-    }
-
-    /**
-     * Le champ << nom >> ne doit pas contenir de chiffres.
-     *
-     * @return void
-     */
-    public function testLeNomNeDoitPasContenirDeChiffres()
-    {
-        $response = $this->post(route('portail.store', [ 'nom' => 'Chr234' ]));
-
-        $response->assertSessionHasErrors(['nom']);
-    }
-
-    /**
-     * Le champ << nom >> peut contenir des tirets
-     *
-     * @return void
-     */
-    public function testLeNomPeutContenirDesTirets()
-    {
-        $response = $this->post(route('portail.store', [ 'nom' => 'Jean-Noël' ]));
-
-        $response->assertSessionDoesntHaveErrors(['nom']);
-    }
-
-    /**
-     * Au moins << prenom >> ou << code_postal >> doit être renseigné
-     *
-     * @return void
-     */
-    public function testPrenomOuCodePostalObligatoire()
+    public function testRedirectionApresEnvoi()
     {
         $response = $this->post(
             route(
                 'portail.store',
                 [
                     'nom'         => 'Valide',
-                    'prenom'      => null,
-                    'code_postal' => null,
+                    'prenom'      => 'Valide',
                 ]
             )
         );
 
-        $response->assertSessionHasErrors(['prenom', 'code_postal']);
-
-        $response = $this->post(
-            route(
-                'portail.store',
-                [
-                    'nom'         => 'Valide',
-                    'prenom'      => 'Prénom',
-                    'code_postal' => null,
-                ]
-            )
-        );
-
-        $response->assertSessionDoesntHaveErrors(['prenom', 'code_postal']);
-
-        $response = $this->post(
-            route(
-                'portail.store',
-                [
-                    'nom'         => 'Valide',
-                    'prenom'      => null,
-                    'code_postal' => '77100',
-                ]
-            )
-        );
-
-        $response->assertSessionDoesntHaveErrors(['prenom', 'code_postal']);
-
-        $response = $this->post(
-            route(
-                'portail.store',
-                [
-                    'nom'         => 'Valide',
-                    'prenom'      => 'Prénom',
-                    'code_postal' => '77100',
-                ]
-            )
-        );
-
-        $response->assertSessionDoesntHaveErrors(['prenom', 'code_postal']);
+        $response->assertRedirect('/portail');
     }
 }

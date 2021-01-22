@@ -20,11 +20,11 @@
         <form class="w-96" method="POST" action="{{ route('portail.store') }}">
             @csrf
 
-            @include('templates.required', ['field' => 'nom', 'label' => 'Nom'])
+            @include('templates.input', ['field' => 'prenom', 'label' => 'Prénom'])
 
             <div class="h-2"></div>
 
-            @include('templates.input', ['field' => 'prenom', 'label' => 'Prénom'])
+            @include('templates.required', ['field' => 'nom', 'label' => 'Nom'])
 
             <div class="h-2"></div>
 

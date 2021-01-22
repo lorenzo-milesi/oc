@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
 use App\Http\Requests\PortailRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 
 /**
  * Permet de gérer les vues et les actions du portail.
@@ -45,10 +47,19 @@ class PortailController extends Controller
      * Enregistre une personne au fichier repoussoir (après validation).
      *
      * @param PortailRequest $request Les paramètres du formulaire (valides)
-     *
-     * @return void
      */
-    public function store(PortailRequest $request): void
+    public function store(PortailRequest $request)
     {
+        return redirect()->route('portail.stored');
+    }
+
+    /**
+     * Affiche la page de confirmation après envoi.
+     *
+     * @return View | Factory
+     */
+    public function stored(): View | Factory
+    {
+        return view('portail.stored');
     }
 }
