@@ -11,60 +11,49 @@
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        
     </head>
     <body class="w-screen h-screen flex flex-col items-center justify-center">
+        <h1 class="text-2xl w-96">
+            Désinscription Client
+        </h1>
+        <div class="h-8"></div>
         <form class="w-96" method="POST" action="{{ route('portail.store') }}">
             @csrf
 
-            <div class="flex flex-col">
-                <label for="nom">Nom</label>
-                <input class="border border-1 rounded p-2" type="text" id="nom" name="nom">
-            </div>
+            @include('templates.required', ['field' => 'nom', 'label' => 'Nom'])
 
             <div class="h-2"></div>
 
-            <div class="flex flex-col">
-                <label for="prenom">Prénom</label>
-                <input class="border border-1 rounded p-2" type="text" id="prenom" name="prenom">
-            </div>
+            @include('templates.input', ['field' => 'prenom', 'label' => 'Prénom'])
 
             <div class="h-2"></div>
 
-            <div class="flex flex-col">
-                <label for="adresse">Adresse</label>
-                <input class="border border-1 rounded p-2" type="text" id="adresse" name="adresse">
-            </div>
+            @include('templates.input', ['field' => 'adresse', 'label' => 'Adresse'])
 
             <div class="h-2"></div>
 
-            <div class="flex flex-col">
-                <label for="code_postal">Code Postal</label>
-                <input class="border border-1 rounded p-2" type="text" id="code_postal" name="code_postal">
-            </div>
+            @include('templates.input', ['field' => 'code_postal', 'label' => 'Code Postal'])
 
             <div class="h-2"></div>
 
-            <div class="flex flex-col">
-                <label for="ville">Ville</label>
-                <input class="border border-1 rounded p-2" type="text" id="ville" name="ville">
-            </div>
+            @include('templates.input', ['field' => 'ville', 'label' => 'Ville'])
 
-            <div class="h-2"></div>
+            <div class="h-4"></div>
 
             <div class="flex justify-end">
-                <button class="bg-blue-500 p-2 text-white rounded" type="submit">Envoyer</button>
+                <button class="bg-blue-500 p-2 text-white" type="submit">Envoyer</button>
             </div>
         </form>
 
+        <div class="h-4"></div>
+
+        <p>Les champs marqués d'une <span class="text-red-500">*</span> sont obligatoires</p>
+
         <div class="h-2"></div>
         @if ($errors->any())
-            <div class="w-96 bg-red-100 p-2 rounded">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li class="text-red-800">{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <div class="w-96 bg-red-500 p-2 text-white">
+                Ce formulaire comporte des erreurs, veuillez vérifier votre saisie et
+                le soumettre de nouveau.
             </div>
         @endif
     </body>
