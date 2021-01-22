@@ -17,6 +17,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\AlphaDashSpacesNoNumberRule;
+use App\Rules\AlphaDashSpacesRule;
+use App\Rules\ZipCodeRule;
 
 /**
  * Permet de gérer les règles d'autorisations et de validation des
@@ -50,17 +52,17 @@ class PortailRequest extends FormRequest
     public function rules()
     {
         return [
-            'nom' => [
-                'required',
-                new AlphaDashSpacesNoNumberRule(),
-            ],
+            'nom'    => [ 'required', new AlphaDashSpacesNoNumberRule() ],
             'prenom' => [
                 'required_if:code_postal,null',
                 new AlphaDashSpacesNoNumberRule(),
             ],
             'code_postal' => [
                 'required_if:prenom,null',
-            ]
+                new ZipCodeRule()
+            ],
+            'adresse' => [ 'sometimes', new AlphaDashSpacesRule() ],
+            'ville'   => [ 'sometimes', new AlphaDashSpacesRule() ],
         ];
     }
 
