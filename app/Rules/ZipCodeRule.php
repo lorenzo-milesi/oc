@@ -39,7 +39,8 @@ class ZipCodeRule implements Rule
     public function passes($attribute, $value)
     {
         $codes = config('zip.codes');
-        $match = array_filter($codes, fn ($code) => (int) $value === $code);
+        $match = array_filter($codes, fn ($code) => $value === $code);
+
         return count($match) > 0 || empty($value);
     }
 
