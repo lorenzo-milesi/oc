@@ -84,12 +84,13 @@ class PortailControllerTest extends TestCase
      */
     public function testRedirectionApresEnvoi()
     {
+        $this->withoutExceptionHandling();
         $response = $this->post(
             route(
                 'portail.store',
                 [
-                    'nom'         => 'Valide',
                     'prenom'      => 'Valide',
+                    'nom'         => 'Valide',
                 ]
             )
         );
